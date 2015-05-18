@@ -19,6 +19,8 @@
             <field name="link" colspan="3"/>
             <label name="record"/>
             <field name="record" colspan="3"/>
+            <label name="image"/>
+            <field name="image" colspan="3"/>
         </page>
         <page string="Children" id="children">
             <field name="child" colspan="4"/>

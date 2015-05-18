@@ -90,6 +90,7 @@ class MenuItem(ModelSQL, ModelView, CMSMenuItemMixin):
     __name__ = 'nereid.cms.menuitem'
     _rec_name = 'title'
 
+    image = fields.Many2One('nereid.static.file', 'Image')
     type_ = fields.Selection([
         ('view', 'View'),
         ('static', 'Static'),
@@ -220,6 +221,7 @@ class MenuItem(ModelSQL, ModelView, CMSMenuItemMixin):
             'title': self.title,
             'target': self.target,
             'type_': self.type_,
+            'image': self.image,
         }
         if self.type_ == 'static':
             res['link'] = self.link
@@ -227,6 +229,9 @@ class MenuItem(ModelSQL, ModelView, CMSMenuItemMixin):
         if self.type_ == 'record':
             res['record'] = self.record
             res['link'] = self.record.get_absolute_url()
+
+            if self.record.image:
+                res['image'] = self.record.image
 
         if max_depth:
             res['children'] = self.get_children(max_depth=max_depth - 1)
@@ -885,6 +890,7 @@ class Article(Workflow, ModelSQL, ModelView, CMSMenuItemMixin):
             'record': self,
             'title': self.title,
             'link': self.get_absolute_url(),
+            'image': self.image,
         }
 
     def atom_id(self):
